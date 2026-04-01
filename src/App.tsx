@@ -1,7 +1,14 @@
+import { Heading } from './components/Heading';
+
+import './styles/theme.css';
+import './styles/global.css';
+
 export function App() {
   return (
     <>
-      <h1>Olá Mundo! 2.0</h1>
+      <Heading attr={123} attr2='String'>
+        Olá Mundo Novo !!!
+      </Heading>
       <p>Aqui algum texto !!!</p>
     </>
   );
