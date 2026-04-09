@@ -2,8 +2,9 @@ import { PlayCircleIcon } from 'lucide-react';
 import { Cycles } from '../Cycles';
 import { DefaultButton } from '../DefaultButton';
 import { DefaultInput } from '../DefaultInput';
+import type { HomeProps } from '../../pages/Home';
 
-export function MainForm() {
+export function MainForm({ state }: HomeProps) {
   return (
     <form className='form' action=''>
       <div className='formRow'>
@@ -16,7 +17,7 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>alguma coisa aqui</p>
+        <p>O Próximo currentState é de {state.config.workTime} min</p>
       </div>
 
       <div className='formRow'>
