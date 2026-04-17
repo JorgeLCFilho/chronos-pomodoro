@@ -1,27 +1,66 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import { initialTaskState } from './initialTaskState';
 import { TaskContext } from './TaskContext';
+import { taskReducer } from './taskReducer';
+
+// modelo funcionando
 
 type TaskContextProviderProps = {
   children: React.ReactNode;
 };
 
 export function TaskContextProvider({ children }: TaskContextProviderProps) {
+  const [state, dispatch] = useReducer(taskReducer, initialTaskState);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
+  return (
+    <TaskContext.Provider value={{ state, dispatch }}>
+      {children}
+    </TaskContext.Provider>
+  );
+}
+
+// modelo de apresentação do useReduce()
+/*
+export function TaskContextProvider({ children }: TaskContextProviderProps) {
   const [state, setState] = useState(initialTaskState);
 
-  const [numero, dispatch] = useReducer((state, action) => {
-    console.log(state, action);
+  type ActionType = {
+    type: string;
+    payload?: number;
+  };
 
-    switch (action) {
-      case 'INCREMENT':
-        return state + 1;
-      case 'DECREMENT':
-        return state - 1;
-      case 'INITIAL_STATE':
-        return 0;
-    }
-    return state;
-  }, 0);
+  const [myState, dispatch] = useReducer(
+    (state, action: ActionType) => {
+      console.log(state, action);
+
+      switch (action.type) {
+        case 'INCREMENT': {
+          if (!action.payload) return state;
+
+          return {
+            ...state,
+            secondsRemaing: state.secondsRemaing + action.payload,
+          };
+        }
+        case 'DECREMENT': {
+          if (!action.payload) return state;
+
+          return {
+            ...state,
+            secondsRemaing: state.secondsRemaing - action.payload,
+          };
+        }
+      }
+      return state;
+    },
+    {
+      secondsRemaing: 0,
+    },
+  );
 
   // useEffect(() => {
   //   console.log(state);
@@ -29,28 +68,31 @@ export function TaskContextProvider({ children }: TaskContextProviderProps) {
 
   return (
     <TaskContext.Provider value={{ state, setState }}>
-      <h1>O número é: {numero}</h1>
+      <h1>O estado é: {JSON.stringify(myState)}</h1>
       <button
         onClick={() => {
-          dispatch('INCREMENT');
+          dispatch({ type: 'INCREMENT', payload: 10 });
         }}
       >
-        Incrementar
+        Incrementar + 10
       </button>
+
       <button
         onClick={() => {
-          dispatch('DECREMENT');
+          dispatch({ type: 'INCREMENT', payload: 20 });
         }}
       >
-        Decrementar
+        Incrementar + 20
       </button>
+
       <button
         onClick={() => {
-          dispatch('INITIAL_STATE');
+          dispatch({ type: 'DECREMENT', payload: 50 });
         }}
       >
-        Zerar
+        Decrementar - 50
       </button>
     </TaskContext.Provider>
   );
 }
+*/
